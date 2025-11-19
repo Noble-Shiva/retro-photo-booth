@@ -9,7 +9,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@anthropic-ai/silk": "^0.2.18",
     "framer-motion": "^10.16.4",
     "html5-qrcode": "^2.3.8",
     "lucide-react": "^0.292.0",

@@ -1,7 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
-const { db, bucket } = require('../config/firebase');
+const { db, bucket, mockMode, mockData } = require('../config/firebase');
 const { applyRetroFilter, createThumbnail } = require('../services/imageProcessor');
 
 const router = express.Router();
@@ -21,28 +21,35 @@ router.post('/upload', upload.single('photo'), async (req, res) => {
     const processedImage = await applyRetroFilter(req.file.buffer, filterType);
     const thumbnail = await createThumbnail(processedImage);
 
-    // Upload to Firebase Storage
-    const imagePath = `photos/${photoId}.webp`;
-    const thumbPath = `thumbnails/${photoId}.webp`;
+    let imageUrl, thumbUrl;
 
-    const imageFile = bucket.file(imagePath);
-    const thumbFile = bucket.file(thumbPath);
+    if (mockMode) {
+      // In mock mode, return base64 data URLs
+      imageUrl = `data:image/webp;base64,${processedImage.toString('base64')}`;
+      thumbUrl = `data:image/webp;base64,${thumbnail.toString('base64')}`;
+    } else {
+      // Upload to Firebase Storage
+      const imagePath = `photos/${photoId}.webp`;
+      const thumbPath = `thumbnails/${photoId}.webp`;
 
-    await Promise.all([
-      imageFile.save(processedImage, { contentType: 'image/webp' }),
-      thumbFile.save(thumbnail, { contentType: 'image/webp' }),
-    ]);
+      const imageFile = bucket.file(imagePath);
+      const thumbFile = bucket.file(thumbPath);
 
-    // Make files publicly accessible
-    await Promise.all([
-      imageFile.makePublic(),
-      thumbFile.makePublic(),
-    ]);
+      await Promise.all([
+        imageFile.save(processedImage, { contentType: 'image/webp' }),
+        thumbFile.save(thumbnail, { contentType: 'image/webp' }),
+      ]);
 
-    const imageUrl = `https://storage.googleapis.com/${bucket.name}/${imagePath}`;
-    const thumbUrl = `https://storage.googleapis.com/${bucket.name}/${thumbPath}`;
+      await Promise.all([
+        imageFile.makePublic(),
+        thumbFile.makePublic(),
+      ]);
 
-    // Save metadata to Firestore
+      imageUrl = `https://storage.googleapis.com/${bucket.name}/${imagePath}`;
+      thumbUrl = `https://storage.googleapis.com/${bucket.name}/${thumbPath}`;
+    }
+
+    // Save metadata
     const photoData = {
       id: photoId,
       imageUrl,
@@ -55,7 +62,7 @@ router.post('/upload', upload.single('photo'), async (req, res) => {
     await db.collection('photos').doc(photoId).set(photoData);
 
     // If part of a group, add to group's photos
-    if (groupId) {
+    if (groupId && !mockMode) {
       await db.collection('groups').doc(groupId).update({
         photoIds: require('firebase-admin').firestore.FieldValue.arrayUnion(photoId),
         updatedAt: new Date().toISOString(),
@@ -91,6 +98,11 @@ router.get('/:id', async (req, res) => {
 // Get user's photos (without group)
 router.get('/', async (req, res) => {
   try {
+    if (mockMode) {
+      const photos = mockData.photos.filter(p => !p.groupId);
+      return res.json({ photos });
+    }
+
     const snapshot = await db.collection('photos')
       .where('groupId', '==', null)
       .orderBy('createdAt', 'desc')
