@@ -1,0 +1,135 @@
+.join-page {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg);
+}
+
+.join-card {
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+.join-header {
+  margin-bottom: var(--space-xl);
+}
+
+.join-icon {
+  color: var(--accent);
+  margin-bottom: var(--space-md);
+}
+
+.join-header h1 {
+  font-size: 2rem;
+  color: var(--accent);
+}
+
+.group-preview {
+  background: var(--bg-secondary);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-xl);
+}
+
+.group-preview .group-name {
+  font-size: 1.5rem;
+  color: var(--color-yellow);
+  margin-bottom: var(--space-xs);
+}
+
+.group-preview .group-stats {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.join-form {
+  margin-bottom: var(--space-md);
+}
+
+.form-group {
+  margin-bottom: var(--space-lg);
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  font-family: 'VT323', monospace;
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-xs);
+}
+
+.join-btn {
+  width: 100%;
+  font-size: 1.25rem;
+}
+
+.join-note {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: var(--space-md);
+}
+
+/* Success State */
+.success-state {
+  text-align: center;
+  max-width: 350px;
+}
+
+.success-icon {
+  color: var(--color-teal);
+  margin-bottom: var(--space-md);
+}
+
+.success-state h2 {
+  font-size: 2rem;
+  color: var(--color-teal);
+  margin-bottom: var(--space-sm);
+}
+
+.redirect-text {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-top: var(--space-md);
+}
+
+/* Error State */
+.error-state {
+  text-align: center;
+  max-width: 350px;
+}
+
+.error-icon {
+  color: var(--color-red);
+  margin-bottom: var(--space-md);
+}
+
+.error-state h2 {
+  font-size: 1.5rem;
+  color: var(--color-red);
+  margin-bottom: var(--space-lg);
+}
+
+/* Loading */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  color: var(--text-secondary);
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--bg-card);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

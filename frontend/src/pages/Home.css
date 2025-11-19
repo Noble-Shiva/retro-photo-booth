@@ -1,0 +1,111 @@
+.home {
+  padding: var(--space-2xl) var(--space-md);
+  min-height: calc(100vh - 80px);
+}
+
+.hero {
+  text-align: center;
+  padding: var(--space-2xl) 0;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  color: var(--accent);
+  margin-bottom: var(--space-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+}
+
+.hero-icon {
+  font-size: 3rem;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-xl);
+}
+
+.hero-cta {
+  font-size: 1.5rem;
+  padding: var(--space-md) var(--space-xl);
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-lg);
+  max-width: 900px;
+  margin: var(--space-2xl) auto;
+}
+
+.feature-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: var(--space-xl);
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.4);
+}
+
+.feature-icon {
+  margin-bottom: var(--space-md);
+}
+
+.feature-title {
+  font-size: 1.5rem;
+  margin-bottom: var(--space-sm);
+  color: var(--color-cream);
+}
+
+.feature-desc {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.retro-decoration {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-2xl);
+}
+
+.film-strip {
+  display: flex;
+  gap: var(--space-lg);
+  padding: var(--space-md) var(--space-xl);
+  background: var(--color-dark-brown);
+  border-radius: var(--radius-sm);
+}
+
+.film-hole {
+  width: 12px;
+  height: 12px;
+  background: var(--bg-primary);
+  border-radius: 50%;
+}
+
+@media (max-width: 600px) {
+  .hero-title {
+    font-size: 2rem;
+    flex-direction: column;
+  }
+
+  .hero-icon {
+    font-size: 2.5rem;
+  }
+}
