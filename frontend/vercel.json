@@ -5,7 +5,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://your-backend-url.vercel.app/api/:path*"
+      "destination": "https://retro-photo-booth-six.vercel.app/api/:path*"
     }
   ]
 }
